@@ -21,6 +21,7 @@ Links importantes:
 )
   - OBS: Utilizar "Base de dados detalhada por NCM"
 
+IMPORTANTE:
 - Você pode utilizar a linguagem e bibliotecas de programação de sua preferência.
 
 **Quais os quesitos de avaliação?** <br>
