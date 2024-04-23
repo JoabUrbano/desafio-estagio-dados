@@ -19,7 +19,7 @@ Aqui, alguns pontos que achamos relevantes:
 Links importantes:
 - [Informações sobre layout de dados](https://www.gov.br/produtividade-e-comercio-exterior/pt-br/assuntos/comercio-exterior/estatisticas/base-de-dados-bruta
 )
-OBS: Utilizar "Base de dados detalhada por NCM"
+- OBS: Utilizar "Base de dados detalhada por NCM"
 Você pode utilizar a linguagem e bibliotecas de programação de sua preferência.
 
 **Quais os quesitos de avaliação?** <br>
