@@ -1,6 +1,6 @@
 # Bem vindo ao desafio em Análise de Dados da SeuBoné!
 
-Esta etapa consiste em um breve desafio com objetivo de permitir que o candidato demonstre seus conhecimentos em programação, visualização e fundamentos de na área de Análise de Dados.
+Esta etapa consiste em um breve desafio com objetivo de permitir que o candidato demonstre seus conhecimentos em programação, visualização e fundamentos na área de Análise de Dados.
 
 O desafio é dividido em duas partes:
 
