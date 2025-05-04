@@ -1,4 +1,8 @@
 from Core.DownloadData.DownloadDataController import DownloadDataController
+from Core.DataStorage.DataStorageController import DataStorageController
 
-a = DownloadDataController()
-a.downloadDataExportImportFull()
+#downloadDataController = DownloadDataController()
+#downloadDataController.downloadDataExportImportFull()
+
+dataStorageController = DataStorageController()
+dataStorageController.dataStorageServiceExport()

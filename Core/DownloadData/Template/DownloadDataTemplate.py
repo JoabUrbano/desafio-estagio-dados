@@ -5,6 +5,9 @@ import urllib.parse
 import zipfile
 
 class DownloadDataTemplate:
+    """
+    Método construtor base que será sobrescrito
+    """
     def __init__(self):
         self.base_url = ""
         self.page_url = ""
@@ -12,6 +15,10 @@ class DownloadDataTemplate:
         self.directory = ""
 
     def makeRequest(self):
+        """
+        Método que faz a requisição para o site especificado e campura o
+        HTML e cria a pasta onde será armazenado os downloads
+        """
         response = requests.get(self.page_url)
         reqPage = BeautifulSoup(response.content, 'html.parser')
         os.makedirs("data", exist_ok=True)
@@ -36,6 +43,9 @@ class DownloadDataTemplate:
         self.unzipFiles()
     
     def unzipFiles(self):
+        """
+        Método que descompacta os arquivos baixados e apaga os zips
+        """
         for nome_arquivo in os.listdir(self.directory):
             if nome_arquivo.endswith(".zip"):
                 caminho_zip = os.path.join(self.directory, nome_arquivo)
