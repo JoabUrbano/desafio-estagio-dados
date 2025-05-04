@@ -5,3 +5,4 @@ class DownloadDataExportImportFull(DownloadDataTemplate):
         self.base_url = "https://www.gov.br"
         self.page_url = "https://www.gov.br/mdic/pt-br/assuntos/comercio-exterior/estatisticas/base-de-dados-bruta"
         self.filesToDownload = ['EXP_COMPLETA.zip', 'IMP_COMPLETA.zip']
+        self.directory = "./data"

@@ -2,12 +2,14 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import urllib.parse
+import zipfile
 
 class DownloadDataTemplate:
     def __init__(self):
         self.base_url = ""
         self.page_url = ""
         self.filesToDownload = []
+        self.directory = ""
 
     def makeRequest(self):
         response = requests.get(self.page_url)
@@ -31,3 +33,14 @@ class DownloadDataTemplate:
                         f.write(file_response.content)
 
         print("Download finalizado.")
+        self.unzipFiles()
+    
+    def unzipFiles(self):
+        for nome_arquivo in os.listdir(self.directory):
+            if nome_arquivo.endswith(".zip"):
+                caminho_zip = os.path.join(self.directory, nome_arquivo)
+                with zipfile.ZipFile(caminho_zip, 'r') as zip_ref:
+                    zip_ref.extractall(self.directory)
+                    print(f"Extraído: {nome_arquivo} para {self.directory}")
+                os.remove(caminho_zip)
+        
