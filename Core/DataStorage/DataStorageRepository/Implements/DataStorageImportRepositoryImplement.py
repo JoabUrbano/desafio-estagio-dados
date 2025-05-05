@@ -14,9 +14,8 @@ class DataStorageImportRepositoryImplement(DataStorageRepositoryTemplate):
         
         sql = """
             INSERT INTO tb_import 
-            (codigo_ano, codigo_mes, codigo_ncm, codigo_unidade, codigo_pais, estado_origem, codigo_via_transporte, codigo_unidade_receita_federal_embarque, quantidade_produto, peso_kilo, valor_mercadoria, valor_frete, valor_seguro)
-            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+            (codigo_ano, codigo_mes, codigo_ncm, codigo_unidade, codigo_pais, estado_destino, codigo_via_transporte, codigo_unidade_receita_federal_desembarque, quantidade_produto, peso_kilo, valor_mercadoria, valor_frete, valor_seguro)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
-        print("criou sql export")
 	
         return self.persistData(dados, sql)

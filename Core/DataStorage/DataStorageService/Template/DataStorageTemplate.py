@@ -40,22 +40,16 @@ class DataStorageTemplate:
         informações nulas ou erradas
         
         :param data: Dataframe pandas contendo os dados do arquivo aberto
-        :type path: pd.DataFrame
+        :type data: pd.DataFrame
 
         :return: Mensagem de sucesso ou erro.
         :rtype: str
         """
-        data = data.dropna(subset=["CO_ANO"])
-        data = data.dropna(subset=["CO_MES"])
-        data = data.dropna(subset=["CO_NCM"])
-        data = data.dropna(subset=["CO_UNID"])
-        data = data.dropna(subset=["CO_PAIS"])
-        data = data.dropna(subset=["SG_UF_NCM"])
-        data = data.dropna(subset=["CO_VIA"])
-        data = data.dropna(subset=["CO_URF"])
-        data = data.dropna(subset=["QT_ESTAT"])
-        data = data.dropna(subset=["KG_LIQUIDO"])
-        data = data.dropna(subset=["VL_FOB"])
+        required_columns = [
+            "CO_ANO", "CO_MES", "CO_NCM", "CO_UNID", "CO_PAIS",
+            "SG_UF_NCM", "CO_VIA", "CO_URF", "QT_ESTAT", "KG_LIQUIDO", "VL_FOB"
+        ]
+        data = data.dropna(subset=required_columns)
 
         data = data[data['CO_NCM'].astype(str).str.len() <= 8]
 
@@ -73,8 +67,6 @@ class DataStorageTemplate:
         data = data[(data["CO_ANO"] >= 1997) & (data["CO_ANO"] <= 2100)]
         data = data[(data["CO_MES"] >= 1) & (data["CO_MES"] <= 12)]
 
-        print(len(data))
-        print(data.head())
         return self.VerifyDataImport(data)
     
     def VerifyDataImport(self, data: pd.DataFrame) -> str:
@@ -82,7 +74,7 @@ class DataStorageTemplate:
         Método que trata as colunas especificas da importação a ser sobrescrito
         
         :param data: Dataframe pandas contendo os dados do arquivo aberto
-        :type path: pd.DataFrame
+        :type data: pd.DataFrame
 
         :return: Mensagem de sucesso ou erro.
         :rtype: str
@@ -91,12 +83,12 @@ class DataStorageTemplate:
     
     def persistData(self, data: pd.DataFrame) -> str:
         """
-        Método que chama o repositorio para persistir os dados
-        
-        :param data: Dataframe pandas contendo os dados do arquivo aberto
-        :type path: pd.DataFrame
+        Passa o dataframe para o repository persistir.
 
-        :return: Mensagem de sucesso ou erro.
-        :rtype: str
+        Args:
+            data (pd.DataFrame): DataFrame com os dados a tratar.
+
+        Returns:
+            str: Mensagem de sucesso ou erro.
         """
         return self.repository.insertData(data)

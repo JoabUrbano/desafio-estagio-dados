@@ -17,6 +17,5 @@ class DataStorageExportRepositoryImplement(DataStorageRepositoryTemplate):
             (codigo_ano, codigo_mes, codigo_ncm, codigo_unidade, codigo_pais, estado_origem, codigo_via_transporte, codigo_unidade_receita_federal_embarque, quantidade_produto, peso_kilo, valor_mercadoria) 
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """
-        print("criou sql import")
 	
         return self.persistData(dados, sql)

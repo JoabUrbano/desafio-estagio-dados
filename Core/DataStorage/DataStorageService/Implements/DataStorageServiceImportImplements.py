@@ -15,8 +15,10 @@ class DataStorageServiceImportImplements(DataStorageTemplate):
         :return: Mensagem de sucesso ou erro.
         :rtype: str
         """
-        data = data.dropna(subset=["VL_FRETE"])
-        data = data.dropna(subset=["VL_SEGURO"])
+        required_columns = [
+            "VL_FRETE", "VL_SEGURO"
+        ]
+        data = data.dropna(subset=required_columns)
 
         data["VL_FRETE"] = pd.to_numeric(data["VL_FRETE"], errors='coerce')
         data["VL_SEGURO"] = pd.to_numeric(data["VL_SEGURO"], errors='coerce')

@@ -13,9 +13,9 @@ CREATE TABLE IF NOT EXISTS `tb_export` (
 	`estado_origem` varchar(255) NOT NULL,
 	`codigo_via_transporte` int NOT NULL,
 	`codigo_unidade_receita_federal_embarque` int NOT NULL,
-	`quantidade_produto` int NOT NULL,
-	`peso_kilo` int NOT NULL,
-	`valor_mercadoria` int NOT NULL,
+	`quantidade_produto` BIGINT NOT NULL,
+	`peso_kilo` BIGINT NOT NULL,
+	`valor_mercadoria` BIGINT NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
@@ -29,9 +29,9 @@ CREATE TABLE IF NOT EXISTS `tb_import` (
 	`estado_destino` varchar(255) NOT NULL,
 	`codigo_via_transporte` int NOT NULL,
 	`codigo_unidade_receita_federal_desembarque` int NOT NULL,
-	`quantidade_produto` int NOT NULL,
-	`peso_kilo` int NOT NULL,
-	`valor_mercadoria` int NOT NULL,
+	`quantidade_produto` BIGINT NOT NULL,
+	`peso_kilo` BIGINT NOT NULL,
+	`valor_mercadoria` BIGINT NOT NULL,
 	`valor_frete` int NOT NULL,
 	`valor_seguro` int NOT NULL,
 	PRIMARY KEY (`id`)

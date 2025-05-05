@@ -16,7 +16,6 @@ class DataStorageRepositoryTemplate:
         self.user = os.getenv("DB_USER")
         self.password = os.getenv("DB_PASSWORD")
         self.database = os.getenv("DB_DATABASE")
-        print("pegou o env")
 
     def insertData(self, dados: pd.DataFrame) -> str:
         """
@@ -50,8 +49,7 @@ class DataStorageRepositoryTemplate:
         :raises pymysql.err.IntegrityError: Se houver violação de integridade no banco.
         :raises pymysql.MySQLError: Para quaisquer outros erros relacionados ao MySQL.
         """
-        print("persistindo")
-        valores = dados.to_records(index=False).tolist()
+        batch_size: int = 3000
         try:
             with pymysql.connect(
                 host=self.host,
@@ -61,10 +59,22 @@ class DataStorageRepositoryTemplate:
                 database=self.database
             ) as connection:
                 with connection.cursor() as cursor:
-                    cursor.executemany(sql, valores)
-
-                connection.commit()
-                return "Dados inseridos com sucesso!"
+                    total_rows = len(dados)
+                    for start in range(0, total_rows, batch_size):
+                        end = min(start + batch_size, total_rows)
+                        batch = dados.iloc[start:end].to_records(index=False).tolist()
+                        cursor.executemany(sql, batch)
+                        connection.commit()
+            return "Todos os dados foram inseridos com sucesso!"
         
+        except pymysql.err.OperationalError as e:
+            return f"Erro de conexão com o banco de dados: {e}"
+        except pymysql.err.ProgrammingError as e:
+            return f"Erro de SQL: {e}"
+        except pymysql.err.IntegrityError as e:
+            return f"Erro de integridade (ex: chave duplicada): {e}"
+        except pymysql.MySQLError as e:
+            return f"Erro MySQL: {e}"
         except Exception as e:
-           return f"Erro ao inserir no banco: {e}"
+            return f"Erro inesperado: {e}"
+
