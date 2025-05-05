@@ -99,4 +99,4 @@ class DataStorageTemplate:
         :return: Mensagem de sucesso ou erro.
         :rtype: str
         """
-        return self.repository.persist(data)
+        return self.repository.insertData(data)

@@ -1,4 +1,4 @@
-from Core.DownloadData.Implement.DownloadDataExportImportFull import DownloadDataExportImportFull
+from Core.DownloadData.Implements.DownloadDataExportImportFull import DownloadDataExportImportFull
 
 class DownloadDataController:
     def __init__(self):

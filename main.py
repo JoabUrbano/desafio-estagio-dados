@@ -5,5 +5,5 @@ from Core.DataStorage.DataStorageController import DataStorageController
 #downloadDataController.downloadDataExportImportFull()
 
 dataStorageController = DataStorageController()
-dataStorageController.dataStorageServiceExport()
-dataStorageController.dataStorageServiceImport()
+print(dataStorageController.dataStorageServiceExport())
+print(dataStorageController.dataStorageServiceImport())

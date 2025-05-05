@@ -24,5 +24,5 @@ class DataStorageServiceImportImplements(DataStorageTemplate):
         data = data[(data["VL_FRETE"] >= 0)]
         data = data[(data["VL_SEGURO"] >= 0)]
 
-        return self.persistData(data)
+        return self.repository.insertData(data)
 
