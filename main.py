@@ -6,3 +6,4 @@ from Core.DataStorage.DataStorageController import DataStorageController
 
 dataStorageController = DataStorageController()
 dataStorageController.dataStorageServiceExport()
+dataStorageController.dataStorageServiceImport()

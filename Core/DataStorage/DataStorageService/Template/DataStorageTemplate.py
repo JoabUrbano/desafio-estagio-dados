@@ -1,7 +1,6 @@
-import numpy as np
 import pandas as pd
 
-class DataStorageServiceExportImplements:
+class DataStorageTemplate:
     def __init__(self, path: str, repository):
         """
         Método construtor
@@ -30,12 +29,12 @@ class DataStorageServiceExportImplements:
             data = pd.read_csv(
                 self.path, sep=";", encoding="utf-8", escapechar="\n"
             )
-            return self.ParsedDataPreprocessor(data)
+            return self.VerifyDataExportImport(data)
             
         except Exception as e:
             return f"Erro ao abrir o arquivo: {e}."
         
-    def ParsedDataPreprocessor(self, data: pd.DataFrame) -> str:
+    def VerifyDataExportImport(self, data: pd.DataFrame) -> str:
         """
         Método que trata as colunas do dataframe, trata as linhas com 
         informações nulas ou erradas
@@ -58,6 +57,8 @@ class DataStorageServiceExportImplements:
         data = data.dropna(subset=["KG_LIQUIDO"])
         data = data.dropna(subset=["VL_FOB"])
 
+        data = data[data['CO_NCM'].astype(str).str.len() <= 8]
+
         data["CO_ANO"] = pd.to_numeric(data["CO_ANO"], errors='coerce')
         data["CO_MES"] = pd.to_numeric(data["CO_MES"], errors='coerce')
         data["CO_NCM"] = pd.to_numeric(data["CO_NCM"], errors='coerce')
@@ -71,8 +72,31 @@ class DataStorageServiceExportImplements:
 
         data = data[(data["CO_ANO"] >= 1997) & (data["CO_ANO"] <= 2100)]
         data = data[(data["CO_MES"] >= 1) & (data["CO_MES"] <= 12)]
+
         print(len(data))
         print(data.head())
-        return "oi"
+        return self.VerifyDataImport(data)
+    
+    def VerifyDataImport(self, data: pd.DataFrame) -> str:
+        """
+        Método que trata as colunas especificas da importação a ser sobrescrito
+        
+        :param data: Dataframe pandas contendo os dados do arquivo aberto
+        :type path: pd.DataFrame
 
+        :return: Mensagem de sucesso ou erro.
+        :rtype: str
+        """
+        return self.persistData(data)
+    
+    def persistData(self, data: pd.DataFrame) -> str:
+        """
+        Método que chama o repositorio para persistir os dados
+        
+        :param data: Dataframe pandas contendo os dados do arquivo aberto
+        :type path: pd.DataFrame
 
+        :return: Mensagem de sucesso ou erro.
+        :rtype: str
+        """
+        return self.repository.persist(data)
