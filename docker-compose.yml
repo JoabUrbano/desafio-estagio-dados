@@ -10,7 +10,7 @@ services:
 
   grafana:
     image: joab23urbano/grafana
-    container_name: grafana
+    container_name: grafana-projeto
     ports:
       - "3000:3000"
     restart: always
