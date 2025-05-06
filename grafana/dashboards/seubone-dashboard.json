@@ -1,0 +1,293 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": {
+            "type": "grafana",
+            "uid": "-- Grafana --"
+          },
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 0,
+    "id": 1,
+    "links": [],
+    "panels": [
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "ael0evty7zapse"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        },
+        "id": 2,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "11.6.1",
+        "targets": [
+          {
+            "dataset": "mysql",
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "WITH import_ranked AS (\r\n    SELECT \r\n        estado_destino,\r\n        codigo_ncm,\r\n        SUM(valor_mercadoria) AS total_importado,\r\n        ROW_NUMBER() OVER (PARTITION BY estado_destino ORDER BY SUM(valor_mercadoria) DESC) AS rank\r\n    FROM tb_import\r\n    WHERE codigo_ano IN (2020, 2021)\r\n    GROUP BY estado_destino, codigo_ncm\r\n)\r\nSELECT *\r\nFROM import_ranked\r\nWHERE rank <= 3;\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Top 3 produtos mais importados por estado nos anos de 2020 e 2021",
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "ael0evty7zapse"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        },
+        "id": 1,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "11.6.1",
+        "targets": [
+          {
+            "dataset": "mysql",
+            "datasource": {
+              "type": "mysql",
+              "uid": "ael0evty7zapse"
+            },
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "WITH export_ranked AS (\r\n    SELECT \r\n        estado_origem,\r\n        codigo_ncm,\r\n        SUM(valor_mercadoria) AS total_exportado,\r\n        ROW_NUMBER() OVER (\r\n            PARTITION BY estado_origem\r\n            ORDER BY SUM(valor_mercadoria) DESC\r\n        ) AS rank\r\n    FROM tb_export\r\n    WHERE codigo_ano IN (2020, 2021)\r\n    GROUP BY estado_origem, codigo_ncm\r\n)\r\nSELECT *\r\nFROM export_ranked\r\nWHERE rank <= 3;\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Top 3 produtos mais exportados por estado nos anos de 2020 e 2021",
+        "type": "table"
+      },
+      {
+        "datasource": {
+          "type": "mysql",
+          "uid": "ael0evty7zapse"
+        },
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "align": "auto",
+              "cellOptions": {
+                "type": "auto"
+              },
+              "inspect": false
+            },
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green"
+                },
+                {
+                  "color": "red",
+                  "value": 80
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 8
+        },
+        "id": 3,
+        "options": {
+          "cellHeight": "sm",
+          "footer": {
+            "countRows": false,
+            "fields": "",
+            "reducer": [
+              "sum"
+            ],
+            "show": false
+          },
+          "showHeader": true
+        },
+        "pluginVersion": "11.6.1",
+        "targets": [
+          {
+            "dataset": "mysql",
+            "editorMode": "code",
+            "format": "table",
+            "rawQuery": true,
+            "rawSql": "WITH export_ranked AS (\r\n    SELECT \r\n        estado_origem,\r\n        codigo_mes,\r\n        codigo_ncm,\r\n        SUM(valor_mercadoria) AS total_exportado,\r\n        ROW_NUMBER() OVER (\r\n            PARTITION BY estado_origem, codigo_mes\r\n            ORDER BY SUM(valor_mercadoria) DESC\r\n        ) AS rank\r\n    FROM tb_export\r\n    WHERE codigo_ano = 2021\r\n    GROUP BY estado_origem, codigo_mes, codigo_ncm\r\n)\r\nSELECT *\r\nFROM export_ranked\r\nWHERE rank <= 3;\r\n",
+            "refId": "A",
+            "sql": {
+              "columns": [
+                {
+                  "parameters": [],
+                  "type": "function"
+                }
+              ],
+              "groupBy": [
+                {
+                  "property": {
+                    "type": "string"
+                  },
+                  "type": "groupBy"
+                }
+              ],
+              "limit": 50
+            }
+          }
+        ],
+        "title": "Top 3 produtos exportados em cada mês de 2021 por estado",
+        "type": "table"
+      }
+    ],
+    "preload": false,
+    "schemaVersion": 41,
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {},
+    "timezone": "browser",
+    "title": "Desafio em Análise de Dados da SeuBoné",
+    "uid": "bel0f76f58f7kd",
+    "version": 9
+  }
