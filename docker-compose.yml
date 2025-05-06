@@ -1,0 +1,17 @@
+
+services:
+  mariadb:
+    image: joab23urbano/maria-db
+    container_name: maria-db
+    ports:
+      - "3306:3306"
+    restart: always
+    volumes:
+      - ./initdb:/docker-entrypoint-initdb.d
+
+  grafana:
+    image: joab23urbano/grafana
+    container_name: grafana-projeto
+    ports:
+      - "3000:3000"
+    restart: always
