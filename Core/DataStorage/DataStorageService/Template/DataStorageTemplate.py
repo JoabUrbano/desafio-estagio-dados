@@ -1,29 +1,35 @@
 import pandas as pd
 
 class DataStorageTemplate:
+    """
+    Classe com a implementação geral do tratamento dos dados de exportação
+    e importação, como os passos de tratar a exportação são todos comuns ao
+    da importação, esse template já é o bastante para tratar exportação e terá
+    um método reescrito para a importação.
+    """
     def __init__(self, path: str, repository):
         """
-        Método construtor
+        Construtor do template
 
-        :param path: Caminho para o arquivo a ser lido
-        :type path: str
-        :param repository: Instância de RepositoryTemplate
-        :type repository: RepositoryTemplate
+        Args:
+            path (str): Caminho para o arquivo csv.
+            repository (str): Um objeto DataStorageRepositoryTemplate para persistir os dados.
         """
         self.path = path
         self.repository = repository
 
     def loadDada(self) -> str:
         """
-        Método para abrir o arquivo .csv e coloca em um dataframe pandas
+        Abre o arquivo .csv e coloca em um dataframe pandas.
 
-        :return: Mensagem de sucesso ou erro.
-        :rtype: str
+        Returns:
+            str: Mensagem de sucesso ou erro.
 
-        :raises FileNotFoundError: Se o arquivo não for encontrado no caminho recebido.
-        :raises UnicodeDecodeError: Se a codificação do arquivo for incompatível com 'utf-8'.
-        :raises pandas.errors.ParserError: Se o conteúdo do CSV estiver mal formado.
-        :raises OSError: Em caso de problemas ao acessar o arquivo.
+        Errors:
+            FileNotFoundError: Se o arquivo não for encontrado no caminho recebido.
+            UnicodeDecodeError: Se a codificação do arquivo for incompatível com 'utf-8'.
+            pandas.errors.ParserError: Se o conteúdo do CSV estiver mal formado.
+            OSError: Em caso de problemas ao acessar o arquivo.
         """
         try:
             data = pd.read_csv(
@@ -36,14 +42,14 @@ class DataStorageTemplate:
         
     def VerifyDataExportImport(self, data: pd.DataFrame) -> str:
         """
-        Método que trata as colunas do dataframe, trata as linhas com 
-        informações nulas ou erradas
+        Trata as colunas do dataframe, que são comuns a exportação e
+        importação, eliminando dados nulos e forá dos intervalos especificados.
         
-        :param data: Dataframe pandas contendo os dados do arquivo aberto
-        :type data: pd.DataFrame
+        Args:
+            data (pd.DataFrame): DataFrame carregado na ultima etapa.
 
-        :return: Mensagem de sucesso ou erro.
-        :rtype: str
+        Returns:
+            str: Mensagem de sucesso ou erro.
         """
         required_columns = [
             "CO_ANO", "CO_MES", "CO_NCM", "CO_UNID", "CO_PAIS",
@@ -71,13 +77,14 @@ class DataStorageTemplate:
     
     def VerifyDataImport(self, data: pd.DataFrame) -> str:
         """
-        Método que trata as colunas especificas da importação a ser sobrescrito
-        
-        :param data: Dataframe pandas contendo os dados do arquivo aberto
-        :type data: pd.DataFrame
+        Trata as colunas especificas da importação, e será sobrescrito na
+        implementação de importação.
 
-        :return: Mensagem de sucesso ou erro.
-        :rtype: str
+        Args:
+            data (pd.DataFrame): DataFrame com os dados verificados na etapa geral.
+
+        Returns:
+            str: Mensagem de sucesso ou erro.
         """
         return self.persistData(data)
     
@@ -86,7 +93,7 @@ class DataStorageTemplate:
         Passa o dataframe para o repository persistir.
 
         Args:
-            data (pd.DataFrame): DataFrame com os dados a tratar.
+            data (pd.DataFrame): DataFrame com os dados tratados para inserir no banco.
 
         Returns:
             str: Mensagem de sucesso ou erro.

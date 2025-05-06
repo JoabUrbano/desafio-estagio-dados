@@ -3,17 +3,19 @@ from Core.DataStorage.DataStorageService.Template.DataStorageTemplate import Dat
 import pandas as pd
 
 class DataStorageServiceImportImplements(DataStorageTemplate):
-        
+    """
+    Classe que trata os casos especificos do dataframe de importação.
+    """
     def VerifyDataImport(self, data: pd.DataFrame) -> str:
         """
         Sobrescreção do método para tratar as colunas exclusivas da importação
-        que são as de valores de frete e seguro
-        
-        :param data: Dataframe pandas contendo os dados do arquivo aberto
-        :type path: pd.DataFrame
+        que são as de valores de frete e seguro.
 
-        :return: Mensagem de sucesso ou erro.
-        :rtype: str
+        Args:
+            data (pd.DataFrame): DataFrame com os dados tratados na etapa geral.
+
+        Returns:
+            str: Mensagem de sucesso ou erro.
         """
         required_columns = [
             "VL_FRETE", "VL_SEGURO"

@@ -6,9 +6,15 @@ import zipfile
 
 class DownloadDataTemplate:
     """
-    Método construtor base que será sobrescrito
+    Classe template que realiza todos os passos genericos de mineração
+    de HTML, download e descompactação.
     """
     def __init__(self):
+        """
+        Construtor base que será sobrescrito nas implementações
+        com as informações do site e dos nomes dos arquivos a serem
+        minerados
+        """
         self.base_url = ""
         self.page_url = ""
         self.filesToDownload = []
@@ -16,7 +22,7 @@ class DownloadDataTemplate:
 
     def makeRequest(self):
         """
-        Método que faz a requisição para o site especificado e campura o
+        Faz a requisição para o site especificado, campura o
         HTML e cria a pasta onde será armazenado os downloads
         """
         response = requests.get(self.page_url)
@@ -26,7 +32,8 @@ class DownloadDataTemplate:
 
     def downloadFiles(self, reqPage):
         """
-        Método que procura e baixa apenas os arquivos filtrados
+        Procura no HTML e baixa apenas os arquivos filtrados definidos
+        no construtor
         """
         for a in reqPage.find_all('a', href=True):
             href = a['href']
@@ -44,7 +51,7 @@ class DownloadDataTemplate:
     
     def unzipFiles(self):
         """
-        Método que descompacta os arquivos baixados e apaga os zips
+        Descompacta todos os arquivos baixados e apaga os zips originais
         """
         for nome_arquivo in os.listdir(self.directory):
             if nome_arquivo.endswith(".zip"):

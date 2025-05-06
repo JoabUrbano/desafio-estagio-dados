@@ -59,7 +59,7 @@ O desafio é dividido em duas partes:
 
 3. Para praticidade o arquivo ```.env``` já está na raiz do projeto com as variaveis de ambiente definidas.
 
-4. Ainda na raiz do projeto, para subir os containers, rode:
+4. Agora é hora de subir os containers, garanta que não há nenhuma aplicação/banco de dados rodando nas portas ```3000``` e ```3306```, e após verificar isso, ainda na raiz do projeto, para subir os containers, rode:
 ```sh
     docker compose up -d
 ```

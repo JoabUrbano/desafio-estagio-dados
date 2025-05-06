@@ -6,10 +6,12 @@ import os
 load_dotenv()
 
 class DataStorageRepositoryTemplate:
-
+    """
+    Template geral do repository que será sobrescrito
+    """
     def __init__(self):
         """
-        Método construtor que pega as variaveis de ambiente com as informações do banco
+        Construtor que carrega as variaveis de ambiente com as informações do banco
         """
         self.host = os.getenv("DB_HOST")
         self.port = int(os.getenv("DB_PORT", 3306))
@@ -20,34 +22,37 @@ class DataStorageRepositoryTemplate:
     def insertData(self, dados: pd.DataFrame) -> str:
         """
         Método a ser sobrescrito com os parametros do dataframe para inserir no banco
+        e a montagem do comando SQL INSERT.
 
-        :param dados: dataframe enviado pela camada de serviço
-        :type dados: pd.DataFrame
+        Args:
+            data (pd.DataFrame): DataFrame tratado enviado pela camada de serviço.
 
-        :return: Mensagem de sucesso ou erro.
-        :rtype: str
+        Returns:
+            str: Mensagem de sucesso ou erro.
         """
         sql = ""
         return self.persistData(dados, sql)
     
     def persistData(self, dados, sql) -> str:
         """
-        Método para persistir os dados no banco
+        Chama o comando SQL INSERT montado no passo anterior para inserir os dados
+        no banco, mas por se tratar de uma grande quantidade de dados, essa inserção
+        é feita em blocos de 3000 dados por vez para não sobrecarregar o banco.
 
-        :param dados: dataframe enviado pela camada de serviço
-        :type dados: pd.DataFrame
-        :param sql: Comando SQL para inserir os dados
-        :type sql: str
+        Args:
+            data (pd.DataFrame): DataFrame tratado enviado pela camada de serviço.
+            sql (str): Comando INSERT sql para inserir os dados no banco.
 
-        :return: Mensagem de sucesso ou erro.
-        :rtype: str
+        Returns:
+            str: Mensagem de sucesso ou erro.
 
-        :raises AttributeError: Se o objeto `dados` não for um DataFrame válido.
-        :raises ValueError: Se houver problemas na conversão dos dados para tuplas.
-        :raises pymysql.err.OperationalError: Se houver erro na conexão com o banco de dados.
-        :raises pymysql.err.ProgrammingError: Se o comando SQL estiver incorreto.
-        :raises pymysql.err.IntegrityError: Se houver violação de integridade no banco.
-        :raises pymysql.MySQLError: Para quaisquer outros erros relacionados ao MySQL.
+        Errors:
+            AttributeError: Se o objeto `dados` não for um DataFrame válido.
+            ValueError: Se houver problemas na conversão dos dados para tuplas.
+            pymysql.err.OperationalError: Se houver erro na conexão com o banco de dados.
+            pymysql.err.ProgrammingError: Se o comando SQL estiver incorreto.
+            pymysql.err.IntegrityError: Se houver violação de integridade no banco.
+            pymysql.MySQLError: Para quaisquer outros erros relacionados ao MySQL.
         """
         batch_size: int = 3000
         try:

@@ -1,15 +1,18 @@
 from Core.DataStorage.DataStorageRepository.Template.DataStorageRepositoryTemplate import DataStorageRepositoryTemplate
 
 class DataStorageImportRepositoryImplement(DataStorageRepositoryTemplate):
+    """
+    Implementação que cuida dos dados de importação
+    """
     def insertData(self, dados) -> str:
         """
         Sobrescrição com os parametros de importação para inserir no banco
 
-        :param dados: dataframe enviado pela camada de serviço
-        :type dados: pd.DataFrame
+        Args:
+            data (pd.DataFrame): DataFrame tratado enviado pela camada de serviço.
 
-        :return: Mensagem de sucesso ou erro.
-        :rtype: str
+        Returns:
+            str: Mensagem de sucesso ou erro.
         """
         
         sql = """
